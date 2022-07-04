@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eloquent Javascript</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+        }
+
+        select#sel {
+            width: 100%;
+            height: 50px;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            width: 100%;
+            height: 40px;
+            -moz-padding-start: calc(10px - 3px);
+            padding-left: 10px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            border-right: 1px #F0F0F0 solid;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select option {
+            color: #666;
+        }
+
+        select:focus::-ms-value {
+            background-color: transparent;
+        }
+
+        select::-ms-expand {
+            display: none;
+        }
+
+        h2 {
+            margin: 7px auto 20px auto;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::before {
+            font-family: fontello;
+            content: "\f107";
+            font-size: 20px;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            color: #fff;
+            pointer-events: none;
+        }
+
+        select#sel {
+            background-image:
+                linear-gradient(45deg, transparent 50%, gray 50%),
+                linear-gradient(135deg, gray 50%, transparent 50%),
+                linear-gradient(to right, #ccc, #ccc);
+            background-position:
+                calc(100% - 20px) calc(1em + 2px),
+                calc(100% - 15px) calc(1em + 2px),
+                calc(100% - 2.5em) 0.5em;
+            background-size:
+                5px 5px,
+                5px 5px,
+                1px 1.5em;
+            background-repeat: no-repeat;
+        }
+
+        .wrapper {
+            white-space: nowrap;
+            margin: 0;
+        }
+
+        .content-right {
+            width: 38%;
+            float: right;
+            height: 100vh;
+            padding-left: 30px;
+            overflow: scroll;
+            position: fixed;
+            right: 0;
+        }
+
+        .content-left {
+            width: 60%;
+            float: left;
+            min-height: 100vh;
+            background-color: #F0F0F0;
+        }
+
+        /* E15-2 */
+        .trail {
+            position: absolute;
+            height: 6px;
+            width: 6px;
+            border-radius: 3px;
+            background: teal;
+        }
+
+        /* E-16 */
+        .background {
+            background: rgb(52, 166, 251);
+            table-layout: fixed;
+            border-spacing: 0;
+        }
+
+        .background td {
+            padding: 0;
+        }
+
+        .lava {
+            background: rgb(255, 100, 100);
+        }
+
+        .wall {
+            background: white;
+        }
+
+        .actor {
+            position: absolute;
+        }
+
+        .coin {
+            background: rgb(241, 229, 89);
+        }
+
+        .player {
+            background: rgb(64, 64, 64);
+        }
+
+        .game {
+            overflow: hidden;
+            max-width: 600px;
+            max-height: 450px;
+            position: relative;
+        }
+
+        .lost .player {
+            background: rgb(160, 64, 64);
+        }
+
+        .won .player {
+            box-shadow: -4px -7px 8px white, 4px -7px 8px white;
+        }
+
+        .monster {
+            background: purple
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="content-left">
+            <div class="select-wrapper">
+                <select id="sel">
+                    <option value="2-1">2-1 Looping a triangle</option>
+                    <option value="2-2">2-2 FizzBuzz</option>
+                    <option value="2-3">2-3 Chessboard</option>
+                    <option value="3-1">3-1 Minimum</option>
+                    <option value="3-2">3-2 Recursion</option>
+                    <option value="3-3">3-3 Bean counting</option>
+                    <option value="4-1">4-1 The sum of a range</option>
+                    <option value="4-2">4-2 Reversing an array</option>
+                    <option value="4-3">4-3 A list</option>
+                    <option value="4-4">4-4 Deep comparison</option>
+                    <option value="5-1">5-1 Flattening</option>
+                    <option value="5-2">5-2 Your own loop</option>
+                    <option value="5-3">5-3 Everything</option>
+                    <option value="5-4">5-4 Dominant writing direction</option>
+                    <option value="6-1">6-1 A vector type</option>
+                    <option value="6-2">6-2 Groups</option>
+                    <option value="6-3">6-3 Iterable groups</option>
+                    <option value="6-4">6-4 Borrowing a method</option>
+                    <option value="7-1">7-1 Measuring a robot</option>
+                    <option value="7-2">7-2 Robot efficiency</option>
+                    <option value="7-3">7-3 Persistent group</option>
+                    <option value="8-1">8-1 Retry</option>
+                    <option value="8-2">8-2 The locked box</option>
+                    <option value="9-1">9-1 Regexp golf</option>
+                    <option value="9-2">9-2 Quoting style</option>
+                    <option value="9-3">9-3 Numbers again</option>
+                    <option value="10-2">10-2 Roads module</option>
+                    <option value="11-1">11-1 Tracking the scalpel</option>
+                    <option value="11-2">11-2 Building Promise.all</option>
+                    <option value="12-1">12-1 Arrays</option>
+                    <option value="12-3">12-3 Comments</option>
+                    <option value="12-4">12-4 Fixing scope</option>
+                    <option value="14-1">14-1 Build a Table</option>
+                    <option value="14-2">14-2 Elements by tag name</option>
+                    <option value="14-3">14-3 The cat’s hat</option>
+                    <option value="15-1">15-1 Balloon</option>
+                    <option value="15-2">15-2 Mouse Trail</option>
+                    <option value="15-3">15-3 Tabs</option>
+                    <option value="16-1">16-1 Game Over</option>
+                    <option value="16-2">16-2 Pausing the game</option>
+                    <option value="16-3">16-3 A monster</option>
+                    <option value="17-1">17-1 Shapes</option>
+                    <option value="17-2">17-2 The pie chart</option>
+                    <option value="17-3">17-3 A bouncing ball</option>
+                    <option value="18-1">18-1 Content negotiation</option>
+                    <option value="18-2">18-2 A JavaScript workbench</option>
+                    <option value="18-3">18-3 Conway’s Game of Life</option>
+                    <option value="19-1">19-1 Keyboard bindings</option>
+                    <option value="19-2">19-2 Efficient drawing</option>
+                    <option value="19-3">19-3 Circles</option>
+                    <option value="19-4">19-4 Proper lines</option>
+                </select>
+            </div>
+            <pre><code class="language-javascript"></code></pre>
+        </div><!-- #content-left -->
+
+        <div class="content-right">
+
+            <div id="E11-1" style="color: red">
+                <h2>Need node server to run code!</h2>
+                <pre>$ node 11-1.js</pre>
+            </div>
+
+            <div id="E14-1">
+                <h2>HTML output</h2>
+                <div id="mountains"></div>
+            </div>
+
+            <div id="E14-2">
+                <h1>Heading with a <span>span</span> element.</h1>
+                <p>A paragraph with <span>one</span>, <span>two</span>
+                    spans.</p>
+            </div>
+
+            <div id="E14-3">
+                <img src="img/cat.png" id="cat" style="position: absolute">
+                <img src="img/hat.png" id="hat" style="position: absolute">
+            </div>
+
+            <div id="E15-1">
+                <pre>press keydown or keyup
+                    </pre>
+                <p id="balloon">🎈</p>
+            </div>
+
+            <div id="E15-3">
+                <tab-panel>
+                    <div data-tabname="one">Tab one</div>
+                    <div data-tabname="two">Tab two</div>
+                    <div data-tabname="three">Tab three</div>
+                </tab-panel>
+            </div>
+
+            <div id="E16" style="margin-top: 480px;"></div>
+
+            <div id="E17-1">
+                <canvas width="600" height="400"></canvas>
+            </div>
+
+            <div id="E18-2">
+                <textarea id="code">return "hi";</textarea>
+                <button id="button">Run</button>
+                <pre id="output"></pre>
+            </div>
+
+            <div id="E18-3">
+                <div id="grid"></div>
+                <button id="next">Next generation</button>
+                <button id="run">Auto run</button>
+            </div>
+
+            <div id="E19-1">
+                <div id="pixelEditor" style="margin-top: 40px;"></div>
+            </div>
+
+            <h2>console output</h2>
+            <div id="log"></div>
+
+        </div><!-- #content-right -->
+    </div><!-- #content-wrapper -->
+
+    <script>
+        var url = window.location.href;
+        var file = "";
+
+        if (!url.includes("?param=")) {
+            url = url + "?param=2-1"
+            selectElement('sel', '2-1')
+            window.location.href = url;
+        } else {
+            file = url.split('=')[1];
+            selectElement('sel', file);
+            showExtraContent(file);
+        }
+
+        function showExtraContent(file) {
+            if (file == "14-1") document.getElementById("E14-1").style.display = "block";
+            else document.getElementById("E14-1").style.display = "none";
+
+            if (file == "11-1") document.getElementById("E11-1").style.display = "block";
+            else document.getElementById("E11-1").style.display = "none";
+           
+            if (file == "14-2") document.getElementById("E14-2").style.display = "block";
+            else document.getElementById("E14-2").style.display = "none";
+
+            if (file == "14-3") document.getElementById("E14-3").style.display = "block";
+            else document.getElementById("E14-3").style.display = "none";
+
+            if (file == "15-1") document.getElementById("E15-1").style.display = "block";
+            else document.getElementById("E15-1").style.display = "none";
+
+            if (file == "15-3") document.getElementById("E15-3").style.display = "block";
+            else document.getElementById("E15-3").style.display = "none";
+
+            if (file == "16-1" || file == "16-2" || file == "16-3") document.getElementById("E16").style.display = "block";
+            else document.getElementById("E16").style.display = "none";
+
+            if (file == "17-1" || file == "17-2" || file == "17-3") document.getElementById("E17-1").style.display = "block";
+            else document.getElementById("E17-1").style.display = "none";
+
+            if (file == "18-2") document.getElementById("E18-2").style.display = "block";
+            else document.getElementById("E18-2").style.display = "none";
+
+            if (file == "18-3") document.getElementById("E18-3").style.display = "block";
+            else document.getElementById("E18-3").style.display = "none";
+
+            if (file == "19-1" || file == "19-2" || file == "19-3" || file == "19-4") document.getElementById("E19-1").style.display = "block";
+            else document.getElementById("E19-1").style.display = "none";
+        }
+
+        function selectElement(id, valueToSelect) {
+            let element = document.getElementById(id);
+            element.value = valueToSelect;
+        }
+
+        $('select').on('change', function () {
+            url = url.split('?')[0]
+            file = this.value + ".js";
+
+            if (url.indexOf('?') > -1)
+                url = url + '?param=' + this.value
+            else
+                url = url + '?param=' + this.value
+
+            window.location.href = url;
+        });
+
+        function getContent(file) {
+            $.get(file, function (response) {
+                $("code").html(response);
+                $("code").each(function (i, block) {
+                    hljs.highlightElement(block);
+                });
+            });
+        }
+
+        getContent("./scripts/" + file + ".js");
+
+        (function () {
+            if (!console)
+                console = {};
+
+            var old = console.log;
+            var logger = document.getElementById('log');
+
+            console.log = function (message) {
+                if (typeof message == 'object')
+                    logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : String(message)) +
+                    '<br />';
+                else
+                    logger.innerHTML += message + '<br />';
+            }
+        })();
+    </script>
+</body>
+</html>
